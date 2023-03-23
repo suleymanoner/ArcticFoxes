@@ -84,8 +84,9 @@ const DetailScreen: React.FC<DetailScreenProps> = ({navigation, route}) => {
       <View style={styles.top_container}>
         <TouchableOpacity onPress={goBack}>
           <Image
-            source={require('../assets/left-arrow.png')}
+            source={require('../assets/left_arrow.png')}
             style={styles.back_button}
+            resizeMode="contain"
           />
         </TouchableOpacity>
         <Text style={styles.top_container_title}>Edit Details</Text>
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
   top_container_title: {
     fontSize: 30,
     marginTop: 10,
-    color: 'black',
+    color: MAIN_COLOR,
     textAlign: 'center',
   },
   img_container: {
