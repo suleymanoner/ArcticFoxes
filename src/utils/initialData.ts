@@ -7,7 +7,7 @@ import fox5 from '../assets/foxes/fox5.jpg';
 import fox6 from '../assets/foxes/fox6.jpg';
 import fox7 from '../assets/foxes/fox7.jpg';
 
-// Initially I wanted to use data from json file that you provided. 
+// Initially, I wanted to use data from json file that you provided.
 // However, I can't display the image with 'require' function because it doesn't allow variable.
 // I needed to pass images in the FoxComponent as props. Because of that I created data here.
 

@@ -1,16 +1,8 @@
 import React, {useContext} from 'react';
-import {View, FlatList} from 'react-native';
+import {View, FlatList, StyleSheet} from 'react-native';
 import FoxComponent from '../components/FoxComponent';
 import DataContext from '../utils/DataContext';
-
 import FloatingActionButton from '../components/FloatingActionButton';
-
-interface Fox {
-  id: string;
-  name: string;
-  age: string;
-  image: string;
-}
 
 interface HomeScreenProps {
   navigation: any;
@@ -18,10 +10,6 @@ interface HomeScreenProps {
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const {data, setData} = useContext(DataContext);
-
-  const goDetails = (id: string, name: string, age: string, image: string) => {
-    navigation.navigate('DetailScreen', {id, name, age, image, updateFox});
-  };
 
   const goAddNew = () => {
     navigation.navigate('AddNewFoxScreen');
@@ -37,8 +25,18 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     setData(updatedData);
   };
 
+  const goDetails = (id: string, name: string, age: string, image: string) => {
+    navigation.navigate('DetailScreen', {
+      id,
+      name,
+      age,
+      image,
+      updateFox,
+    });
+  };
+
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
         data={data}
         keyExtractor={item => item.id}
@@ -54,5 +52,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+});
 
 export {HomeScreen};
