@@ -11,7 +11,7 @@ import {
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {ButtonWithText} from '../components/ButtonWithText';
 import DataContext from '../utils/DataContext';
-import {MAIN_COLOR} from '../utils/Config';
+import {MAIN_COLOR, toast} from '../utils/Config';
 import {Fox} from '../utils/initialData';
 import uuid from 'react-native-uuid';
 
@@ -22,7 +22,7 @@ interface AddNewFoxScreenProps {
 const AddNewFoxScreen: React.FC<AddNewFoxScreenProps> = ({navigation}) => {
   const {data, setData} = useContext(DataContext);
 
-  const [stateImg, setStImg] = useState(require('../assets/foxes/fox0.jpg'));
+  const [stateImg, setStImg] = useState(require('../assets/add_photo.png'));
   const [isPhotoChanged, setIsPhotoChanged] = useState(false);
 
   const [stateName, setStName] = useState('');
@@ -60,15 +60,27 @@ const AddNewFoxScreen: React.FC<AddNewFoxScreenProps> = ({navigation}) => {
   };
 
   const addNewFox = () => {
-    const newFox: Fox = {
-      id: uuid.v4().toString(),
-      name: stateName,
-      age: stateAge,
-      image: stateImg,
-    };
-    const updatedData = [...data, newFox];
-    setData(updatedData);
-    goBack();
+    if (isPhotoChanged === false) {
+      toast('Please add photo!');
+      return;
+    } else if (stateName === '') {
+      toast('Please enter name!');
+      return;
+    } else if (stateAge === '') {
+      toast('Please enter age!');
+      return;
+    } else {
+      const newFox: Fox = {
+        id: uuid.v4().toString(),
+        name: stateName,
+        age: stateAge,
+        image: stateImg,
+      };
+      const updatedData = [...data, newFox];
+      setData(updatedData);
+      goBack();
+      toast('Added!');
+    }
   };
 
   return (
