@@ -7,18 +7,12 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {ButtonWithText} from '../components/ButtonWithText';
-import {MAIN_COLOR} from '../utils/Config';
+import {MAIN_COLOR, toast} from '../utils/Config';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import DataContext from '../utils/DataContext';
-
-interface Fox {
-  id: string;
-  name: string;
-  age: string;
-  image: string;
-}
 
 interface DetailScreenProps {
   navigation: any;
@@ -26,21 +20,12 @@ interface DetailScreenProps {
 }
 
 const DetailScreen: React.FC<DetailScreenProps> = ({navigation, route}) => {
+  const {data, setData} = useContext(DataContext);
   const {id, name, age, image, updateFox} = route?.params;
-
-  var fox: Fox = {
-    id,
-    name,
-    age,
-    image,
-  };
 
   const [stateName, setStName] = useState(name);
   const [stateAge, setStAge] = useState(age);
   const [stateImg, setStImg] = useState(image);
-  const [isPhotoChanged, setIsPhotoChanged] = useState(false);
-
-  const {data, setData} = useContext(DataContext);
 
   const goBack = () => {
     navigation.goBack();
@@ -63,8 +48,6 @@ const DetailScreen: React.FC<DetailScreenProps> = ({navigation, route}) => {
       })
         .then(img => {
           setStImg(img.path);
-          console.log(img.path);
-          setIsPhotoChanged(true);
         })
         .catch(err => {
           console.log(err);
@@ -77,6 +60,31 @@ const DetailScreen: React.FC<DetailScreenProps> = ({navigation, route}) => {
   const onSave = () => {
     updateFox(id, stateName, stateAge, stateImg);
     goBack();
+    toast('Editted!');
+  };
+
+  const onDelete = () => {
+    Alert.alert(
+      'Delete',
+      'Are you sure?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Delete cancelled!'),
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            const newData = data.filter(fox => fox.id !== id);
+            setData(newData);
+            goBack();
+            toast('Deleted!');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
   };
 
   return (
@@ -90,11 +98,22 @@ const DetailScreen: React.FC<DetailScreenProps> = ({navigation, route}) => {
           />
         </TouchableOpacity>
         <Text style={styles.top_container_title}>Edit Details</Text>
+        <TouchableOpacity onPress={onDelete}>
+          <Image
+            source={require('../assets/delete_icon.png')}
+            style={styles.delete_btn}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.img_container}>
         <TouchableOpacity onPress={choosePhoto}>
           <Image
-            source={isPhotoChanged ? {uri: stateImg} : stateImg}
+            source={
+              typeof stateImg === 'string' && stateImg.includes('file')
+                ? {uri: stateImg}
+                : stateImg
+            }
             style={styles.image}
           />
         </TouchableOpacity>
@@ -129,7 +148,7 @@ const styles = StyleSheet.create({
   },
   top_container: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10,
   },
@@ -174,9 +193,14 @@ const styles = StyleSheet.create({
   back_button: {
     width: 25,
     height: 25,
-    right: 75,
-    position: 'absolute',
-    bottom: -20,
+    marginTop: 15,
+    marginLeft: 20,
+  },
+  delete_btn: {
+    width: 25,
+    height: 25,
+    marginTop: 15,
+    marginRight: 20,
   },
 });
 
