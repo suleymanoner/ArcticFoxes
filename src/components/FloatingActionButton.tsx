@@ -1,6 +1,7 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, Text} from 'react-native';
+import {TouchableOpacity, StyleSheet} from 'react-native';
 import {MAIN_COLOR, WHITE} from '../utils/Config';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface FloatingActionButtonProps {
   onPress: any;
@@ -11,7 +12,7 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
 }) => {
   return (
     <TouchableOpacity style={styles.btn} onPress={onPress}>
-      <Text style={styles.btn_txt}>Add</Text>
+      <Icon name="add" size={30} color="white" />
     </TouchableOpacity>
   );
 };

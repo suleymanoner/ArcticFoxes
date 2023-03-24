@@ -13,6 +13,7 @@ import {ButtonWithText} from '../components/ButtonWithText';
 import {MAIN_COLOR, toast} from '../utils/Config';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import DataContext from '../utils/DataContext';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface DetailScreenProps {
   navigation: any;
@@ -90,20 +91,12 @@ const DetailScreen: React.FC<DetailScreenProps> = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <View style={styles.top_container}>
-        <TouchableOpacity onPress={goBack}>
-          <Image
-            source={require('../assets/left_arrow.png')}
-            style={styles.back_button}
-            resizeMode="contain"
-          />
+        <TouchableOpacity onPress={goBack} style={styles.back_button}>
+          <Icon name="arrow-back" size={30} color={MAIN_COLOR} />
         </TouchableOpacity>
         <Text style={styles.top_container_title}>Edit Details</Text>
-        <TouchableOpacity onPress={onDelete}>
-          <Image
-            source={require('../assets/delete_icon.png')}
-            style={styles.delete_btn}
-            resizeMode="contain"
-          />
+        <TouchableOpacity onPress={onDelete} style={styles.delete_btn}>
+          <Icon name="delete" size={30} color={MAIN_COLOR} />
         </TouchableOpacity>
       </View>
       <View style={styles.img_container}>
@@ -193,13 +186,13 @@ const styles = StyleSheet.create({
   back_button: {
     width: 25,
     height: 25,
-    marginTop: 15,
+    marginTop: 10,
     marginLeft: 20,
   },
   delete_btn: {
     width: 25,
     height: 25,
-    marginTop: 15,
+    marginTop: 10,
     marginRight: 20,
   },
 });

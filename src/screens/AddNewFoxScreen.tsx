@@ -14,6 +14,7 @@ import DataContext from '../utils/DataContext';
 import {MAIN_COLOR, toast} from '../utils/Config';
 import {Fox} from '../utils/initialData';
 import uuid from 'react-native-uuid';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface AddNewFoxScreenProps {
   navigation: any;
@@ -86,14 +87,12 @@ const AddNewFoxScreen: React.FC<AddNewFoxScreenProps> = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.top_container}>
-        <TouchableOpacity onPress={goBack}>
-          <Image
-            source={require('../assets/left_arrow.png')}
-            style={styles.back_button}
-            resizeMode="contain"
-          />
+        <TouchableOpacity onPress={goBack} style={styles.back_button}>
+          <Icon name="arrow-back" size={30} color={MAIN_COLOR} />
         </TouchableOpacity>
-        <Text style={styles.top_container_title}>Add New Fox</Text>
+        <View style={styles.title_container}>
+          <Text style={styles.top_container_title}>Add New Fox</Text>
+        </View>
       </View>
       <View style={styles.img_container}>
         <TouchableOpacity onPress={choosePhoto}>
@@ -137,15 +136,20 @@ const styles = StyleSheet.create({
   },
   top_container: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10,
+    paddingHorizontal: 10,
   },
   top_container_title: {
     fontSize: 30,
     marginTop: 10,
     color: MAIN_COLOR,
     textAlign: 'center',
+  },
+  title_container: {
+    flex: 1,
+    alignItems: 'center',
   },
   btn_container: {
     alignSelf: 'flex-end',
@@ -177,9 +181,8 @@ const styles = StyleSheet.create({
   back_button: {
     width: 25,
     height: 25,
-    right: 60,
-    position: 'absolute',
-    bottom: -20,
+    marginLeft: 10,
+    marginTop: 10,
   },
   image: {
     width: Dimensions.get('screen').width / 1.08,
