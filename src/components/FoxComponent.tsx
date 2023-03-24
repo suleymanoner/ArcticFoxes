@@ -9,18 +9,17 @@ interface FoxComponentProps {
 }
 
 const FoxComponent: React.FC<FoxComponentProps> = ({name, image, onTap}) => {
-  console.log(image);
-
-  var isChanged = false;
-
-  if (typeof image === 'string' && image.includes('file')) {
-    isChanged = true;
-  }
-
   return (
     <TouchableOpacity style={styles.container} onPress={() => onTap()}>
       <View style={styles.top_container}>
-        <Image source={isChanged ? {uri: image} : image} style={styles.image} />
+        <Image
+          source={
+            typeof image === 'string' && image.includes('file')
+              ? {uri: image}
+              : image
+          }
+          style={styles.image}
+        />
         <View style={styles.name_container}>
           <Text style={styles.name}>{name}</Text>
         </View>
